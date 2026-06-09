@@ -41,14 +41,14 @@ console.log("\n--- Comparisons & Strings ---");
 console.log("2" == 2); // Prints: true (JavaScript converts types automatically)
 console.log("2" === 2); // Prints: false (checks type of both objects)
 
-// Modern String Interpolation (Backticks ``)
-const repoName = "AI-Code-Reviewer";
-const dayCount = 4;
-
 //concatenation
 console.log(1+"1") //prints 11(concat)
 console.log("1"+2+2) //prints 122(uses string type to concatenate as string is there at 1st)
 console.log(1+2+"2") //prints 32 (1st numbers there so adds then concatenate string)
+
+// Modern String Interpolation (Backticks ``)
+const repoName = "AI-Code-Reviewer";
+const dayCount = 4;
 
 // Instead of old concatenation ("Day " + dayCount + " of " + repoName)
 console.log(`Hello, this is Day ${dayCount} of working on the ${repoName} project.`);
