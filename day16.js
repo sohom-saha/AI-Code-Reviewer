@@ -50,3 +50,31 @@ async function consumeAIEngineDirectly() {
 
 consumeAIEngineDirectly();
 
+// ==========================================================
+// THE MODERN FETCH ENGINE: CALLING AN API DIRECTLY
+// ==========================================================
+console.log("--- Fetch Engine Initialized ---");
+
+async function getOnlineData() {
+    try {
+        console.log("Shooting network request across the internet...");
+        
+        // 1. fetch() fires the request and returns a raw response promise
+        const response = await fetch('https://jsonplaceholder.typicode.com/users/1');
+        
+        // 2. Convert the raw stream incoming from the web into a clean JavaScript Object
+        const userData = await response.json();
+        
+        console.log("\n🛸 --- Data Safely Retrieved! --- 🛸");
+        console.log(`User Name: ${userData.name}`);
+        console.log(`Email Address: ${userData.email}`);
+        console.log(`Company: ${userData.company.name}`);
+        
+    } catch (error) {
+        // If your internet is down or the URL is broken, it lands here instantly
+        console.log("Network Connection Error:", error);
+    }
+}
+
+getOnlineData();
+
