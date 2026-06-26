@@ -1,60 +1,39 @@
 // ==========================================================
-// DAY 18: ADVANCED EXPRESS ROUTING & MIDDLEWARE CONFIGURATION
+// DAY 19: CONFIGURING SECURE ENVIRONMENT MANAGEMENT
 // ==========================================================
+
+// 1. Load the dotenv library at the absolute top of the file.
+// This reads the contents of your .env file and injects them into system memory before anything else boots!
+require('dotenv').config();
 
 const express = require('express');
 const app = express();
-const PORT = 3000;
 
-// 1. MIDDLEWARE: This configuration line tells Express to automatically
-// intercept incoming data packets and parse them into a clean JavaScript Object.
-// Without this line, req.body will read as 'undefined'!
+// 2. Instead of hardcoding 3000, read it out of the secure environment.
+// If it's missing for any reason, default safely to 3000 using the || (OR) operator.
+const PORT = process.env.PORT || 3000;
+
 app.use(express.json());
 
-
-// ROUTE 1: The Main Home Page (GET Method)
 app.get('/', (req, res) => {
-    res.send("<h1>Welcome to the AI Code Reviewer Home Page</h1>");
+    res.send("Secure Server Engine: ONLINE. Vault initialized successfully. ✓");
 });
 
-
-// ROUTE 2: System Health Check Endpoint (GET Method)
-app.get('/status', (req, res) => {
-    // Sending data back as a structured JSON object instead of raw text
+// A dummy verification channel to test if your server can see your secret API key string
+app.get('/test-vault', (req, res) => {
+    const hiddenApiKey = process.env.GEMINI_API_KEY;
+    
     res.json({
-        status: "Healthy",
-        uptime: "100%",
-        engine: "V8 Express"
+        message: "Environment verification complete.",
+        // Pulling the hidden variable out of system memory dynamically
+        vault_key_detected: hiddenApiKey ? "SUCCESS: Secret key found inside memory." : "FAILED: Key not detected."
     });
 });
 
-
-// ROUTE 3: The Code Processing Channel (POST Method)
-// We use POST because the user is submitting/posting their raw code to our server.
-app.post('/review', (req, res) => {
-    // Pulling the user's submitted code directly out of the request body
-    const userCode = req.body.code;
-
-    if (!userCode) {
-        return res.status(400).json({ error: "No code block was provided for analysis." });
-    }
-
-    console.log(`\n📬 Code received for review:\n${userCode}`);
-
-    // Sending back a temporary dummy response. Next week, this is where Gemini's analysis will sit!
-    res.json({
-        message: "Code successfully received by the backend engine.",
-        preview: userCode.substring(0, 30) + "..."
-    });
-});
-
-
-// 2. Turn the server on
 app.listen(PORT, () => {
     console.log(`=================================================`);
-    console.log(`🚀 Day 18 Server running live on port ${PORT}`);
+    console.log(`🚀 Day 19 Secure Server booted successfully.`);
     console.log(`🔗 Main Link: http://localhost:${PORT}`);
-    console.log(`🔗 Status Link: http://localhost:${PORT}/status`);
+    console.log(`🔗 Vault Verification: http://localhost:${PORT}/test-vault`);
     console.log(`=================================================`);
 });
-
